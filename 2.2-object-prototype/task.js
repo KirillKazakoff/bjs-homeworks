@@ -13,15 +13,15 @@ function checkString() {
 
 
 function getAverageMark(marks) {
-    let roundedAverage = Math.round(marks.reduce((total,value) => total + value) / marks.length);
+    const roundedAverage = Math.round(marks.reduce((total,value) => total + value) / marks.length);
     return roundedAverage;
 }
 
 
 function checkBirthday(birthday) {
-   let now = +new Date;
-   let personBirth = +new Date(birthday);
-   let diff = now - personBirth;
-   let age = diff / 31600400000;
+   const now = +new Date;
+   const personBirth = +new Date(birthday);
+   const diff = now - personBirth;
+   const age = diff / 31600400000;
    return age >= 18;
 }
