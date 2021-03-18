@@ -146,3 +146,76 @@ log.addGrade(4, 'geometry');
 
 console.log(log.getAverageBySubject('geometry')); 
 console.log(log.getAverageBySubject('algebra')); 
+
+// callbacks
+const fakeNames = { 
+    0: "Petya",
+    1: "Kolya",
+    2: "Sasha",
+    length: "3",
+    forEach: function(callback) {
+       for (key in this) {
+           if (key !== 'length') {
+               callback(this[key])
+           }
+           
+       }   
+    }
+}
+
+// ----------- Extra for lections ----------------- //
+
+//reduce
+
+const students = [
+    {
+        name: "joba",
+        age: "22"
+    },
+    {
+        name: "joba",
+        age: "23"
+    },
+    {
+        name: "joba",
+        age: "24"
+    },
+    {
+        name: "joba",
+        age: "23"
+    },
+    {
+        name: "joba",
+        age: "22"
+    }
+]
+
+const agesStudents = students.reduce((ages, student) => { //ages - object, student - current value(object)
+    const currentAge = student.age;
+
+    if (!ages[currentAge]) currentAge = [];
+
+    ages[currentAge].push(student.name);
+
+    return ages;  
+}, {}) //{} - initial empty object
+
+// "dsf".startsWith('d') = true
+
+let memory = '';
+
+students.some(student => {
+    let memory = memory + student.name;
+
+    if (memory.length > 50) return true;
+
+    console.log(student.name);
+    return;
+})
+
+
+// можно использовать для прерывания forEach?
+
+// leetcode - задачи для js
+
+// мемонизация? меморизация? мемоизация?
