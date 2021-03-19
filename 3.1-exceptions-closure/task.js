@@ -31,7 +31,7 @@ class Triangle {
     
     getArea() {
         let pHalf = this.getPerimeter() / 2;
-        return Math.sqrt(pHalf * (pHalf - this.aSide) * (pHalf - this.bSide) * (pHalf - this.cSide)).toFixed(3);
+        return parseFloat(Math.sqrt(pHalf * (pHalf - this.aSide) * (pHalf - this.bSide) * (pHalf - this.cSide)).toFixed(3));
     }
 
 }
