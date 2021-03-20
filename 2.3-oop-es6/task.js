@@ -163,6 +163,21 @@ const fakeNames = {
     }
 }
 
+// My first callback lol
+function extraFunc(array, sumValue, callback) {
+    console.log(array.sort(callback));
+}
+
+function compareNumbersAscending(a, b) {
+    return b - a;
+}
+
+function compareNumbersDescending(a, b) {
+    return a - b;
+}
+
+
+
 // ----------- Extra for lections ----------------- //
 
 //reduce
