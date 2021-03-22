@@ -4,30 +4,24 @@ console.clear();
 const weapons = [new Knife(), new Staff(), new Axe(), new StormStaff(), new LongBow(), new Bow()];
 
 function getNames() {
-    return weapons.reduce((names, item) => {
-       names.push(item.name);
-       return names;
-    }, [])
+    return weapons.map(element => element.name);
 }
 
 function getCountReliableWeapons(durability) {
-    return weapons.reduce((count, weapon) => {
-        if (weapon.durability > durability) count++;
-        return count;
-    }, 0);
+    let count = 0
+    weapons.forEach(element => {
+        if (element.durability > durability) count++; 
+    })
+    return count;
 }
 
 function hasReliableWeapons(durability) {
-    return getCountReliableWeapons(durability) > 0;
+    return weapons.some(element => element.durability > durability);
 }
 
 function getReliableWeaponsNames(durability) {
-    return weapons.reduce((namesArray, weapon) => {
-        if (weapon.durability > durability) {
-            namesArray.push(weapon.name);
-        }
-        return namesArray;
-    }, [])
+    let filteredArray = weapons.filter(element => element.durability > durability);
+    return filteredArray.map(element => element.name);
 }
 
 function getTotalDamage() {
@@ -63,26 +57,27 @@ function sum(...args) {
 }
 
 function compareArrays(arr1, arr2) {
-    if (arr1.length != arr2.length) return false;
-    return arr1.every((elem, index) => elem == arr2[index]);
+    const result = arr1.every((elem, index) => elem == arr2[index])
+    if (arr1.length == arr2.length && result == true) return true;
 }
 
 function memorize(fn, limit) {
-   let memory = []; 
-   
-   return (...args) => {
-       let result = memory.find(obj => compareArrays(obj.args, args)); 
-       if (result === undefined) {
-           result = fn(...args);
-           memory.push({args: args, result: result});
-           if (memory.length > limit) {
-               memory.splice(0,1);
-           }
-       }
-       else result = result.result;
-       return result;
-   }
-}
+    let memory = []; 
+    
+    return (...args) => {
+        let result = memory.find(obj => compareArrays(obj.args, args)); 
+        if (result !== undefined) {
+            return result.result;
+        }
+        result = fn(...args);
+        memory.push({args, result});
+        if (memory.length > limit) {
+            memory.splice(0,1);
+        }
+        return result;
+    }
+ }
+
 
 let memSum = new memorize(sum, 5);
 
