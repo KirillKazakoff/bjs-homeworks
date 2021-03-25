@@ -1,7 +1,7 @@
 class AlarmClock {
     constructor() {
         this.alarmCollection = [];
-        this.timerIdentifiers = [];
+        this.timerId = null;
     }
     addClock(time, action, id) {
         if (id === undefined) throw new Error('id wasnt found');
@@ -21,20 +21,26 @@ class AlarmClock {
     }
     getCurrentFormattedTime() {
         let currentDate = new Date();
-        return `${currentDate.getHours()} : ${currentDate.getMinutes()}`;
+        return `${currentDate.getHours()}:${currentDate.getMinutes()}`;
     }
     start() {
-        this.alarmCollection.forEach(alarm => {
-            this.timerIdentifiers.push(checkClock.bind(this)(alarm));
-        }, this);
+        if (this.timerId === undefined) {
+            this.timerId = setInterval(enumAlarms.bind(this), 10000);
+        }
+
+        function enumAlarms() {
+            this.alarmCollection.forEach(alarm => {
+                checkClock.bind(this)(alarm);
+            }, this); 
+        }
 
         function checkClock(alarm) {
             const interval = getInterval.bind(this)(alarm);
-            return setInterval(alarm.action, interval); 
+            if (interval == 0) alarm.action();
         }
     }
     stop() {
-        this.timerIdentifiers.forEach(id => clearInterval(id));
+        clearInterval(this.timerId);
     }
     printAlarms() {
         this.alarmCollection.forEach(alarm => console.log(`id = ${alarm.id}, time = ${alarm.time}`));
