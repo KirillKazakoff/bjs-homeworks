@@ -1,3 +1,4 @@
+"use strict"
 class AlarmClock {
     constructor() {
         this.alarmCollection = [];
@@ -21,11 +22,20 @@ class AlarmClock {
     }
     getCurrentFormattedTime() {
         let currentDate = new Date();
-        return `${currentDate.getHours()}:${currentDate.getMinutes()}`;
+        formateDate("getHours"); formateDate("getMinutes");
+
+        function formateDate(property) {
+            let prop = currentDate[property]();
+            if (prop < 10) {
+                prop = `0${property}`;
+            }
+            currentDate[property] = prop;
+        }
+        return `${currentDate.getHours}:${currentDate.getMinutes}`;
     }
     start() {
-        if (this.timerId === undefined) {
-            this.timerId = setInterval(enumAlarms.bind(this), 10000);
+        if (this.timerId === null) {
+            this.timerId = setInterval(enumAlarms.bind(this), 5000);
         }
 
         function enumAlarms() {
@@ -35,8 +45,7 @@ class AlarmClock {
         }
 
         function checkClock(alarm) {
-            const interval = getInterval.bind(this)(alarm);
-            if (interval == 0) alarm.action();
+            if (alarm.time == this.getCurrentFormattedTime()) alarm.action();
         }
     }
     stop() {
@@ -51,21 +60,21 @@ class AlarmClock {
     }
 }
 
-function timeInMs(array) {
-    return array[0] * 3600000 + array[1] * 60000;
-}
+// function timeInMs(array) {
+//     return array[0] * 3600000 + array[1] * 60000;
+// }
 
-function getInterval(alarm) {
-    let currentTime = this.getCurrentFormattedTime().split(':');
-    let alarmTime = alarm.time.split(':');
-    let intervalTime = 0;
-    currentTime = timeInMs(currentTime); alarmTime = timeInMs(alarmTime);
-    if (alarmTime >= currentTime) {
-        intervalTime = alarmTime - currentTime;
-    }
-    else intervalTime = 86400000 - currentTime + alarmTime;
-    return intervalTime;
-}
+// function getInterval(alarm) {
+//     let currentTime = this.getCurrentFormattedTime().split(':');
+//     let alarmTime = alarm.time.split(':');
+//     let intervalTime = 0;
+//     currentTime = timeInMs(currentTime); alarmTime = timeInMs(alarmTime);
+//     if (alarmTime >= currentTime) {
+//         intervalTime = alarmTime - currentTime;
+//     }
+//     else intervalTime = 86400000 - currentTime + alarmTime;
+//     return intervalTime;
+// }
 
 let myAlarm = new AlarmClock();
 
